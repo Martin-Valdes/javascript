@@ -10,23 +10,16 @@ let cantidadUnidades;
 let costoEnvio;
 
 
-while (true){
+while (isNaN(medidaX)){
     medidaX = parseInt(prompt('Ingrese el largo en mm del PCB'));
-    if(isNaN(medidaX)){
-        alert('Debe ingresar un dato valido');
-    }
-    else
-        break;
+    comprobarDato(medidaX);
+    
 }
 
 
-while (true){
+while (isNaN(medidaY)){
     medidaY = parseInt(prompt('Ingrese el ancho en mm del PCB'));
-    if(isNaN(medidaY)){
-        alert('Debe ingresar un dato valido');
-    }
-    else
-        break;
+    comprobarDato(medidaY);
 }
 
 while(true){
@@ -68,13 +61,9 @@ if(paisEnvio<4 && paisEnvio>0){
 }
 }
 
-while (true){
+while (isNaN(cantidadUnidades)){
     cantidadUnidades = parseInt(prompt('Ingrese cantidad de unidades de PCB´s'));
-    if(isNaN(cantidadUnidades)){
-        alert('Debe ingresar un dato valido');
-    }
-    else
-        break;
+    comprobarDato(cantidadUnidades);
 }
 
 let cotizacionFinal = ((((((medidaX*medidaY))*0.0005)*materialPcb))*cantidadUnidades + costoEnvio);
@@ -101,4 +90,13 @@ if (confirmacionCompra == 1 || confirmacionCompra == 2){
     break
 }
 
+}
+
+function comprobarDato (datoIngresado){
+    if(isNaN(datoIngresado)){
+        alert('Debe ingresar un dato valido');
+    }
+    else{
+        return false;
+    }
 }
