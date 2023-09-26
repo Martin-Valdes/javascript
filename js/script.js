@@ -4,10 +4,15 @@
 
 let medidaX;
 let medidaY;
-let materialPcb;
 let paisEnvio;
 let cantidadUnidades;
 let costoEnvio;
+let condicional = 1;
+let condicionalMaterial = 1;
+let paisVerificacion = 1;
+
+
+alert("Bienvenido al simulador de cotizacion de productos.\nComenzamos!\nPresione Enter. ")
 
 
 while (isNaN(medidaX)){
@@ -22,43 +27,46 @@ while (isNaN(medidaY)){
     comprobarDato(medidaY);
 }
 
-while(true){
-    materialPcb = parseInt(prompt('Ingrese el material de fabricacion\n 1-FR4\n 2-Fibra'))
-switch(materialPcb){
 
-case 1:
-    break;
-case 2:
-    break;
-default:
-    alert('no has introducido un valor valido');
+let materialPcb = parseInt(prompt('Ingrese el material de fabricacion\n 1-FR4\n 2-Fibra'));
 
-}
-if(materialPcb == 1 || materialPcb == 2){
-    break;
-}
-}
+while(condicionalMaterial==1){
+    
+    if(materialPcb == 1){
+        condicionalMaterial = 0;
+        alert("Material seleccionado FR4");
+    }
+    else if(materialPcb == 2){
+        condicionalMaterial = 0;
+        alert("Material seleccionado Fibra");
+    }
+    else{
+        alert("Ha ingresado un dato incorrecto")
+        materialPcb = parseInt(prompt('Ingrese el material de fabricacion\n 1-FR4\n 2-Fibra'));
+    }
+    }
 
-while(true){
+while(paisVerificacion == 1){
     paisEnvio = parseInt(prompt('Ingrese el pais de destino:\n 1-Uruguay\n 2-Argentina\n 3-Brasil'))
 switch(paisEnvio){
 
 case 1:
+    paisVerificacion = 0;
     costoEnvio = 50;
     break;
 case 2:
+    paisVerificacion = 0;
     costoEnvio = 70;
     break;
 case 3:
+    paisVerificacion = 0;
     costoEnvio = 40;
     break;
 default:
     alert('no has introducido un valor valido');
+    paisEnvio = parseInt(prompt('Ingrese el pais de destino:\n 1-Uruguay\n 2-Argentina\n 3-Brasil'))
+}
 
-}
-if(paisEnvio<4 && paisEnvio>0){
-    break;
-}
 }
 
 while (isNaN(cantidadUnidades)){
@@ -70,26 +78,24 @@ let cotizacionFinal = ((((((medidaX*medidaY))*0.0005)*materialPcb))*cantidadUnid
 
 alert('El costo de total es de:\n'+'USD '+cotizacionFinal.toFixed(2));
 
-while(true){
-    
 let confirmacionCompra = parseInt(prompt('Confirma su compra?\n 1-Confirmar compra \n 2-Cancelar pedido'));
 
-switch(confirmacionCompra){
-
-    case 1:
-        alert('Gracias por su compra\n Se ha enviado informacion a su casilla de correo');
-        break;
-    case 2:
-        alert('Compra cancelada.');
-        break;
-    default:
-        alert('no has introducido un valor valido');
-
-}
-if (confirmacionCompra == 1 || confirmacionCompra == 2){
-    break
-}
-
+while(condicional==1){
+    
+    if(confirmacionCompra == 1){
+        condicional=0;
+        alert("Gracias por su compra!!");
+        let resumen = "Resumen de su factura:\nMedida eje X"+medidaX+"mm\nMedida eje Y:"+medidaY+"mm\nCosto de envio:U$D"+costoEnvio+"\nCantidad de unidades:"+cantidadUnidades+"\n\nTotal:"+cotizacionFinal.toFixed(2)+"";
+        alert(resumen);
+    }
+    else if(confirmacionCompra == 2){
+        condicional=0;
+        alert("Compra cancelada");
+    }
+    else{
+        alert("Ha ingresado un dato incorrecto");
+        confirmacionCompra = parseInt(prompt('Confirma su compra?\n 1-Confirmar compra \n 2-Cancelar pedido'));
+    }
 }
 
 function comprobarDato (datoIngresado){
@@ -100,3 +106,4 @@ function comprobarDato (datoIngresado){
         return false;
     }
 }
+
