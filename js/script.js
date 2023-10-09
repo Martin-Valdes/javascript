@@ -1,4 +1,4 @@
-//Este codigo se basa en un formulario que debe completar un cliente con el fin de 
+// //Este codigo se basa en un formulario que debe completar un cliente con el fin de 
 //solicitar un ptroducto a medida. En desarrollo web realice en el index dicho formulario.
 //La idea es poder generar una cotizacion luego de completar los campos.
 
@@ -10,6 +10,7 @@ let costoEnvio;
 let condicional = 1;
 let condicionalMaterial = 1;
 let paisVerificacion = 1;
+
 
 
 alert("Bienvenido al simulador de cotizacion de productos.\nComenzamos!\nPresione Enter. ")
@@ -107,3 +108,66 @@ function comprobarDato (datoIngresado){
     }
 }
 
+alert("Comenzamos con la tienda web");
+
+const productos = [
+    {articulo: "Articulo: Placa arduino\n", marca:"Marca: Arduino\n", modelo: "Modelo: Uno\n", categoria: "Categoria: placa de desarrollo\n"},
+    {articulo: "Articulo: Osciloscopio\n", marca: "Marca: SGB\n", modelo: "Modelo: MBH-32341\n", categoria: "Categoria: instrumentos\n"},
+    {articulo: "Articulo: Soldador\n", marca: "Marca: Jvc\n", modelo: "Modelo: LMU0928\n", categoria: "Categoria: herramientas\n"},
+    {articulo: "Articulo: Estaño\n", marca: "Marca N/A\n", modelo: "Modelo: 2mm\n", categoria: "Categoria: materiales electronicos\n"},
+    {articulo: "Articulo: Tester\n", marca: "Marca: Fluke\n", modelo: "Modelo: AB-298\n", categoria: "Categoria: instrumentos\n"}
+]
+
+let busquedaUsuario = inicioBusqueda(prompt("Ingrese la categoria que desea:"));
+
+
+function inicioBusqueda(busquedaUsuario){
+    if (busquedaUsuario != ""){
+
+    const resultado = productos.filter((busqueda) => busqueda.categoria.includes(busquedaUsuario.toLowerCase()));
+
+    alert("Se han encontrado "+resultado.length+" coincidencias");
+
+    for (let i=0;i<resultado.length;i++){
+    
+        let listaArticulos = Object.values(resultado[i]);
+        alert(listaArticulos);
+    }
+    funcionArticulo = seleccionAriculo(resultado);
+    }
+    else{
+    alert("El campo no puede estar vacio\nActualice la pagina")
+    }
+}
+
+
+function seleccionAriculo(arrayBusqueda){
+    console.log(arrayBusqueda.length)
+
+    if (arrayBusqueda.length > 0){
+        let articulo = parseInt(prompt("Ingrese el numero de articulo del 1 al "+arrayBusqueda.length));
+        while(articulo<1 || articulo >arrayBusqueda.length || isNaN(articulo)){
+        articulo = parseInt(prompt("Ingrese nuevamente el numero de articulo del 1 al "+arrayBusqueda.length));
+        }
+
+        let confirmacionCompra = parseInt(prompt('Confirma su compra por el articulo:\n '+Object.values(arrayBusqueda[articulo-1])+' \nSeleccione una opcion:\n1-Confirmar compra \n 2-Cancelar pedido'));
+        let condicional = 1;
+
+        while(condicional==1){
+        
+        if(confirmacionCompra == 1){
+            bucleCondicion=0;
+            alert("Gracias por su compra!!");
+        
+        }
+        else if(confirmacionCompra == 2){
+            bucleCondicion=0;
+            alert("Compra cancelada");
+        }
+        else{
+            alert("Ha ingresado un dato incorrecto");
+            confirmacionCompra = parseInt(prompt('Confirma su compra?\n 1-Confirmar compra \n 2-Cancelar pedido'));
+        }
+        }
+    }
+}
