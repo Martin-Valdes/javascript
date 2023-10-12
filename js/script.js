@@ -111,63 +111,89 @@ function comprobarDato (datoIngresado){
 alert("Comenzamos con la tienda web");
 
 const productos = [
-    {articulo: "Articulo: Placa arduino\n", marca:"Marca: Arduino\n", modelo: "Modelo: Uno\n", categoria: "Categoria: placa de desarrollo\n"},
-    {articulo: "Articulo: Osciloscopio\n", marca: "Marca: SGB\n", modelo: "Modelo: MBH-32341\n", categoria: "Categoria: instrumentos\n"},
-    {articulo: "Articulo: Soldador\n", marca: "Marca: Jvc\n", modelo: "Modelo: LMU0928\n", categoria: "Categoria: herramientas\n"},
-    {articulo: "Articulo: Estaño\n", marca: "Marca N/A\n", modelo: "Modelo: 2mm\n", categoria: "Categoria: materiales electronicos\n"},
-    {articulo: "Articulo: Tester\n", marca: "Marca: Fluke\n", modelo: "Modelo: AB-298\n", categoria: "Categoria: instrumentos\n"}
+    {id:0, articulo: "Articulo: Placa arduino\n", marca:"Marca: Arduino\n", modelo: "Modelo: Uno\n", categoria: "Categoria: placa de desarrollo\n"},
+    {id:1, articulo: "Articulo: Osciloscopio\n", marca: "Marca: SGB\n", modelo: "Modelo: MBH-32341\n", categoria: "Categoria: instrumentos\n"},
+    {id:2, articulo: "Articulo: Soldador\n", marca: "Marca: Jvc\n", modelo: "Modelo: LMU0928\n", categoria: "Categoria: herramientas\n"},
+    {id:3, articulo: "Articulo: Estaño\n", marca: "Marca N/A\n", modelo: "Modelo: 2mm\n", categoria: "Categoria: materiales electronicos\n"},
+    {id:4, articulo: "Articulo: Tester\n", marca: "Marca: Fluke\n", modelo: "Modelo: AB-298\n", categoria: "Categoria: instrumentos\n"}
 ]
+mostrarArticulos();
 
-let busquedaUsuario = inicioBusqueda(prompt("Ingrese la categoria que desea:"));
-
-
-function inicioBusqueda(busquedaUsuario){
-    if (busquedaUsuario != ""){
-
-    const resultado = productos.filter((busqueda) => busqueda.categoria.includes(busquedaUsuario.toLowerCase()));
-
-    alert("Se han encontrado "+resultado.length+" coincidencias");
-
-    for (let i=0;i<resultado.length;i++){
+const seleccionArticulo = (cadenaString) => {
     
-        let listaArticulos = Object.values(resultado[i]);
-        alert(listaArticulos);
+    let testeo;
+    let articulo;
+    do{
+
+        articulo = parseInt(prompt(`Seleccione el numero de ID del articulo que desea:\n${cadenaString}`));
+        testeo = cadenaString.indexOf("Id:"+articulo);
+        if (testeo ==-1){alert("El ID ingresado no es correccto.\nVuelva a ingresarlo");}
+    
+    }while (testeo == -1 || isNaN(articulo))
+    let confirmCompra = parseInt(prompt("Desea confirmar su compra?\n1-Comprar\n2-Cancelar"))
+    let evaluar = validacionBinaria(2,confirmCompra)
+    if(evaluar == 1){
+        alert("Muchas gracias por su compra")
     }
-    funcionArticulo = seleccionAriculo(resultado);
-    }
+    else{alert("Compra cancelada")}
+    inicioBusqueda();
+}
+let listaArticulos
+
+const inicioBusqueda = busquedaUsuario =>{
+
+    busquedaUsuario = prompt("Ingrese la categoria que desea:");
+    const resultado = productos.filter((busqueda) => busqueda.categoria.includes(busquedaUsuario.toLowerCase()));
+    if (busquedaUsuario != ""){
+        alert("Se han encontrado "+resultado.length+" coincidencias");
+        if(resultado == 0){
+            resultado.splice();
+            inicioBusqueda()
+        }
+        let articulos = 'Los articulos encontrados son:\n----------------------\n';
+        resultado.forEach(element => {
+        articulos += `Id:${element.id}\n${element.articulo}\n${element.categoria}\n${element.marca}\n${element.modelo}-----------------\n`
+    });
+    seleccionArticulo(articulos);
+        }
     else{
-    alert("El campo no puede estar vacio\nActualice la pagina")
+        alert("El campo no puede estar vacio\nActualice la pagina")
+        inicioBusqueda();
     }
 }
 
+inicioBusqueda();
 
-function seleccionAriculo(arrayBusqueda){
-    console.log(arrayBusqueda.length)
+function validacionBinaria(valorIngresado, parametroValidar){
 
-    if (arrayBusqueda.length > 0){
-        let articulo = parseInt(prompt("Ingrese el numero de articulo del 1 al "+arrayBusqueda.length));
-        while(articulo<1 || articulo >arrayBusqueda.length || isNaN(articulo)){
-        articulo = parseInt(prompt("Ingrese nuevamente el numero de articulo del 1 al "+arrayBusqueda.length));
+        while(parametroValidar<1 || parametroValidar >valorIngresado || isNaN(parametroValidar)){
+        parametroValidar = parseInt(prompt("Ingrese nuevamente el numero del 1 al "+valorIngresado));
         }
+        return parametroValidar;
+}
 
-        let confirmacionCompra = parseInt(prompt('Confirma su compra por el articulo:\n '+Object.values(arrayBusqueda[articulo-1])+' \nSeleccione una opcion:\n1-Confirmar compra \n 2-Cancelar pedido'));
-        let condicional = 1;
+function validacionCompra(valorBinario){
 
-        while(condicional==1){
+        valorBinario = validacionBinaria(2, valorBinario);
         
-        if(confirmacionCompra == 1){
+        if(valorBinario == 1){
             bucleCondicion=0;
             alert("Gracias por su compra!!");
-        
+            let nuevoArticulo = parseInt(prompt("Si desea realizar una nueva compra ingrese 1 de lo contrario 2"));
+            nuevoArticulo = validacionBinaria(2,nuevoArticulo);
+            if  (nuevoArticulo ==1){inicioBusqueda()}
+            else{return nuevoArticulo}
         }
-        else if(confirmacionCompra == 2){
+        else if(valorBinario == 2){
             bucleCondicion=0;
             alert("Compra cancelada");
         }
-        else{
-            alert("Ha ingresado un dato incorrecto");
-            confirmacionCompra = parseInt(prompt('Confirma su compra?\n 1-Confirmar compra \n 2-Cancelar pedido'));
-        }
-        }
-    }
+}
+
+function mostrarArticulos (){
+    let articulos = 'Los articulos de nuestra tienda son:\n---------------------------\n';
+    productos.forEach(element => {
+        articulos += `${element.articulo}${element.categoria}\n---------------------\n`
+    });
+    alert(articulos);
 }
